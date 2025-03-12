@@ -15,6 +15,7 @@ Table of Contents
     * [get_primary_peers](#get_primary_peers)
     * [get_backup_peers](#get_backup_peers)
     * [set_peer_down](#set_peer_down)
+    * [set_peer_weight](#set_peer_weight)
     * [current_upstream_name](#current_upstream_name)
 * [TODO](#todo)
 * [Compatibility](#compatibility)
@@ -210,6 +211,20 @@ upstream.set_peer_down("bar", true, 1, true)
 will turn down the backup peer corresponding to `server 127.0.0.4 ...`.
 
 You can turn on a peer again by providing a `false` value as the 4th argument.
+
+[Back to TOC](#table-of-contents)
+
+set_peer_weight
+-------------
+`syntax: ok, err = upstream.set_peer_weight(upstream_name, is_backup, peer_id, weight)`
+
+Set the "weight" (integer) attribute of the specified peer.
+
+To uniquely specify a peer, you need to specify the upstream name, whether or not it is a backup peer, and the peer id (starting from 0).
+
+Note that this method only changes the peer settings in the current Nginx worker
+process. You need to synchronize the changes across all the Nginx workers yourself if you
+want a server-wide change (for example, by means of [ngx_lua](https://github.com/openresty/lua-nginx-module#ngxshareddict)'s [ngx.shared.DICT](https://github.com/openresty/lua-nginx-module#ngxshareddict)).
 
 [Back to TOC](#table-of-contents)
 
